@@ -7,7 +7,9 @@ const ProductEditor = () => {
   const [content, setContent] = useState({
     code: "",
     title: "",
-    description: "",
+    shortdescription: "",
+    ingredients: "",
+    benefits: "",
     mrp: "",
     sp: "",
     discountPercent: "",
@@ -35,7 +37,9 @@ const ProductEditor = () => {
       setContent({
         code: "",
         title: "",
-        description: "",
+        shortdescription: "",
+        ingredients: "",
+        benefits: "",
         mrp: "",
         sp: "",
         discountPercent: "",
@@ -90,16 +94,50 @@ console.log(content,"content");
         </div>
         <div>
           <label
-            htmlFor="description"
+            htmlFor="shortdescription"
             className="block text-sm font-medium text-gray-700 mb-2"
           >
-            Description
+            Short Description
           </label>
           <input
             type="text"
-            name="description"
-            id="description"
-            value={content.description}
+            name="shortdescription"
+            id="shortdescription"
+            value={content.shortdescription}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="ingredients"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Ingredients
+          </label>
+          <input
+            type="text"
+            name="ingredients"
+            id="ingredients"
+            value={content.ingredients}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="benefits"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            Benefits
+          </label>
+          <input
+            type="text"
+            name="benefits"
+            id="benefits"
+            value={content.benefits}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
