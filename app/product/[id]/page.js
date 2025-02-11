@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useCart } from "@/app/context/CartContext";
 import { useParams } from "next/navigation";
 import axios from "axios";
 
@@ -10,6 +11,14 @@ const ProductDetail = () => {
   const [error, setError] = useState("");
   const [quantity, setQuantity] = useState(1);
 
+
+  const { addToCart } = useCart(); // ✅ FIX: use the correct function name
+
+  const handleAddToCart = () => {
+    console.log("handleAddToCart",product, quantity)
+    addToCart(product, quantity);
+  };
+  
   useEffect(() => {
     if (!id) return;
 
@@ -72,7 +81,7 @@ const ProductDetail = () => {
             </div>
 
             {/* Buttons */}
-            <button className="px-6 py-3 text-lg font-medium text-white bg-gray-900 rounded-md shadow-md hover:bg-gray-700 transition">
+            <button className="px-6 py-3 text-lg font-medium text-white bg-gray-900 rounded-md shadow-md hover:bg-gray-700 transition" onClick={handleAddToCart}>
               Add to Cart
             </button>
             <button className="px-6 py-3 text-lg font-medium text-gray-900 border border-gray-300 rounded-md shadow-md hover:bg-gray-100 transition">

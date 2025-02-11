@@ -18,7 +18,6 @@ export default function Brands() {
     };
     fetchContent();
   }, []);
-console.log(content)
   return (
     <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden my-16 p-10">
       {/* Content Section */}

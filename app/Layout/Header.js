@@ -1,6 +1,13 @@
+"use client"
+ 
 import React from "react";
-
+import { BsCart } from "react-icons/bs";
+import { useCart  } from "../context/CartContext";
+import CartModal from "../components/ui/CartModal";
 function Header() {
+  const { cart } = useCart();
+console.log(cart,"cartHeader");
+
   return (
     <header className="sticky top-0 z-50 bg-peach px-6 py-4 shadow-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
@@ -14,7 +21,7 @@ function Header() {
         </a>
 
         {/* Navigation */}
-        <nav className="hidden space-x-6 md:flex">
+        <nav className="hidden space-x-6 md:flex md:items-center">
           <a href="/content-editor" className="text-white hover:text-yellow hover:underline">
             Content Editor
           </a>
@@ -24,11 +31,9 @@ function Header() {
           <a href="#" className="text-white hover:text-yellow hover:underline">
             About
           </a>
-          <a href="#" className="text-white hover:text-yellow hover:underline">
-            Contact
-          </a>
-        </nav>
 
+        </nav>
+ <CartModal />
         {/* Mobile Menu Button */}
         <button className="block text-white md:hidden">
           <svg
