@@ -3,9 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --peach-orange: #FF7F50;
+  --rosy-pink: #FF6F91;
+  --light-yellow: #FFECB3;
+  --golden-yellow: #FFB84D;
+  --soft-coral: #FF8C69;
+  --warm-beige: #F5E1C7;
+  --light-blush: #fae1da;
 }
+
+
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -15,7 +22,10 @@
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  .swiper-button-prev, .swiper-button-next {
+     color: white;
+  }
+  .swiper-pagination-bullet{
+    background: white;
+  }
 }

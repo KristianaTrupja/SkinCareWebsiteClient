@@ -8,8 +8,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        peach: 'var(--peach-orange)', // --peach-orange
+        rosy: 'var(--rosy-pink)', // --rosy-pink
+        lightYellow: 'var(--light-yellow)', // --light-yellow
+        goldenYellow: 'var(--golden-yellow)', // --golden-yellow
+        softCoral: 'var(--soft-coral)', // --soft-coral
+        warmBeige: 'var(--warm-beige)', // --warm-beige
+        lightBlush: 'var(--light-blush)', // --light-blush
       },
     },
   },
