@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import axios from "axios";
 import Link from "next/link";
 
@@ -53,4 +53,11 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+// Wrap SearchPage with Suspense
+export default function SearchPageWithSuspense() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <SearchPage />
+    </Suspense>
+  );
+}
