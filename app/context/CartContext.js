@@ -8,13 +8,10 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   const addToCart = (product, quantity = 1) => {
-    console.log(product,quantity,"product, quantity")
     setCart((prevCart) => {
-        console.log(prevCart,"prevCart")
       const existingItem = prevCart.find((item) => item._id === product._id);
   
       if (existingItem) {
-        console.log(existingItem,"existingItem")
         // ✅ Return a new array with updated quantity
         return prevCart.map((item) =>
           item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item

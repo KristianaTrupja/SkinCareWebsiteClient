@@ -1,12 +1,23 @@
-"use client"
- 
-import React from "react";
-import { BsCart } from "react-icons/bs";
-import { useCart  } from "../context/CartContext";
+"use client";
+
+import React, { useState } from "react";
+import { BsCart, BsSearch } from "react-icons/bs";
+import { useCart } from "../context/CartContext";
+import { useRouter } from "next/navigation";
 import CartModal from "../components/ui/CartModal";
+
 function Header() {
   const { cart } = useCart();
-console.log(cart,"cartHeader");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const router = useRouter();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-peach px-6 py-4 shadow-md">
@@ -20,6 +31,20 @@ console.log(cart,"cartHeader");
           />
         </a>
 
+        {/* Search Bar */}
+        <form onSubmit={handleSearch} className="relative hidden md:flex">
+          <input
+            type="text"
+            placeholder="Search products..."
+            className="px-4 py-2 rounded-md border text-gray-700 w-80"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button type="submit" className="absolute right-2 top-2 text-gray-600">
+            <BsSearch />
+          </button>
+        </form>
+
         {/* Navigation */}
         <nav className="hidden space-x-6 md:flex md:items-center">
           <a href="/content-editor" className="text-white hover:text-yellow hover:underline">
@@ -31,26 +56,8 @@ console.log(cart,"cartHeader");
           <a href="#" className="text-white hover:text-yellow hover:underline">
             About
           </a>
-
+          <CartModal/>
         </nav>
- <CartModal />
-        {/* Mobile Menu Button */}
-        <button className="block text-white md:hidden">
-          <svg
-            className="h-6 w-6"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
-        </button>
       </div>
     </header>
   );

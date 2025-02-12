@@ -50,10 +50,12 @@ const ProductDetail = () => {
         {/* Product Details */}
         <div className="w-full md:w-1/2 flex flex-col justify-between">
           <h1 className="text-3xl font-semibold text-gray-900">{product.title}</h1>
-          <p className="text-xl font-medium text-gray-600 mt-2">₹{product.sp}</p>
+          <p className="text-xl font-medium text-gray-600 mt-2">Lek {product.sp}</p>
           <hr className="border-gray-300 my-4" />
           <p className="text-gray-700 text-lg leading-relaxed">{product.shortdescription}</p>
+          {product.ingredients && <p className="text-gray-700 text-lg leading-relaxed mt-5">Perberesit:</p>}
           <p className="text-gray-700 text-lg leading-relaxed mt-5">{product.ingredients}</p>
+          {product.benefits && <p className="text-gray-700 text-lg leading-relaxed mt-5">Benefitet:</p>}
           <p className="text-gray-700 text-lg leading-relaxed mt-5">{product.benefits}</p>
 
           {/* Quantity and Buttons */}

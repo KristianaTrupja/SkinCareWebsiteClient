@@ -56,10 +56,10 @@ const Products = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-[#1f2937]">
-            Our Bestselling Products
+            Produktet tona Bestseller
           </h2>
           <p className="text-[#4b5563] mt-2">
-            Explore our top-rated Korean skincare essentials.
+            Eksploroni produktet tona me te shitura.
           </p>
         </div>
 
@@ -100,9 +100,9 @@ const Products = () => {
               {/* Price Section */}
               <div className="mt-2">
                 {product.mrp !== product.sp && (
-                  <p className="text-red-700 text-sm line-through">₹{product.mrp}</p>
+                  <p className="text-red-700 text-sm line-through">Lek {product.mrp}</p>
                 )}
-                <p className="text-[#333333] font-bold text-xl">₹{product.sp}</p>
+                <p className="text-[#333333] font-bold text-xl">Lek {product.sp}</p>
               </div>
             </div>
           ))}

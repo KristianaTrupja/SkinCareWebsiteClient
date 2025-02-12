@@ -36,7 +36,7 @@ const Stage = () => {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide._id}>
-            <div className="relative w-full h-72 sm:h-80 md:h-[700px]">
+            <div className="relative w-full h-80 md:h-[800px]">
               <img
                 src={slide.image}
                 alt={slide.title}

@@ -30,11 +30,11 @@ export default function Services() {
       {/* Section Header */}
       <div className="text-center mb-16 relative z-10">
         <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-wide">
-          Why Choose Us?
+        🌟 Pse të na zgjidhni ne?
         </h2>
-        <p className="text-lg text-white mt-3 max-w-2xl mx-auto">
-          Experience the best of Korean skincare with our premium services.
-        </p>
+         <p className="text-lg text-white mt-3 max-w-2xl mx-auto">
+         ✨ Bukuri Koreane, Cilësi e Garantuar – Sepse Ju Meritoni Më të Mirën! ✨
+        </p> 
       </div>
 
       {/* Services Grid */}

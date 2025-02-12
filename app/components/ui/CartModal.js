@@ -47,7 +47,7 @@ const CartModal = () => {
                   />
                   <div className="flex-1">
                     <h3 className="text-md font-semibold">{item.title}</h3>
-                    <p className="text-gray-600">₹{item.sp} x {item.quantity}</p>
+                    <p className="text-gray-600">Lek{item.sp} x {item.quantity}</p>
                   </div>
                 </div>
               ))}

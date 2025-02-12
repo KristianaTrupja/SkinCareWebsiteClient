@@ -122,7 +122,6 @@ console.log(content,"content");
             id="ingredients"
             value={content.ingredients}
             onChange={handleChange}
-            required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -139,7 +138,6 @@ console.log(content,"content");
             id="benefits"
             value={content.benefits}
             onChange={handleChange}
-            required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -173,7 +171,6 @@ console.log(content,"content");
             id="sp"
             value={content.sp}
             onChange={handleChange}
-            required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -190,7 +187,6 @@ console.log(content,"content");
             id="discountPercent"
             value={content.discountPercent}
             onChange={handleChange}
-            required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
