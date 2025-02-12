@@ -40,7 +40,7 @@ function Header() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button type="submit" className="absolute right-2 top-2 text-gray-600">
+          <button type="submit" className="absolute right-2 top-3 text-gray-600">
             <BsSearch />
           </button>
         </form>
