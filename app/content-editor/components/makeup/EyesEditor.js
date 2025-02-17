@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const ProductEditor = () => {
+const EyesEditor = () => {
   const [content, setContent] = useState({
     category: "",
     code: "",
@@ -29,7 +29,7 @@ const ProductEditor = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/product",
+        "http://localhost:5000/eyes",
         content
       );
       alert("Content created successfully!");
@@ -57,7 +57,7 @@ console.log(content,"content");
   return (
     <div className="bg-white w-full p-8 border-2 border-solid border-primary">
       <h1 className="text-3xl font-semibold text-center text-softGold mb-6">
-        Product Content Editor
+        Eyes Products Content Editor
       </h1>
       <form onSubmit={handleSubmit} className="space-y-6">
       <div>
@@ -237,4 +237,4 @@ console.log(content,"content");
   );
 };
 
-export default ProductEditor;
+export default EyesEditor;

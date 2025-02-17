@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { useParams } from "next/navigation";
 import axios from "axios";
+import RatingAndReviews from "@/app/components/global/RatingAndReviews";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -15,7 +16,6 @@ const ProductDetail = () => {
   const { addToCart } = useCart(); // ✅ FIX: use the correct function name
 
   const handleAddToCart = () => {
-    console.log("handleAddToCart",product, quantity)
     addToCart(product, quantity);
   };
   
@@ -48,9 +48,10 @@ const ProductDetail = () => {
         </div>
 
         {/* Product Details */}
-        <div className="w-full md:w-1/2 flex flex-col justify-between">
+        <div className="p-5 md:px-0 w-full md:w-1/2 flex flex-col justify-between">
           <h1 className="text-3xl font-semibold text-gray-900">{product.title}</h1>
-          <p className="text-xl font-medium text-gray-600 mt-2">Lek {product.sp}</p>
+          {(product.mrp && product.sp === null) && <p className="text-xl font-medium text-gray-600 mt-2">Lek {product.mrp}</p>}
+          {product.sp !== null && <p className="text-xl font-medium text-gray-600 mt-2">Lek {product.sp}</p>}
           <hr className="border-gray-300 my-4" />
           <p className="text-gray-700 text-lg leading-relaxed">{product.shortdescription}</p>
           {product.ingredients && <p className="text-gray-700 text-lg leading-relaxed mt-5">Perberesit:</p>}
@@ -92,6 +93,7 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
+      <RatingAndReviews productId={product._id} />
     </section>
   );
 };

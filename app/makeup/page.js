@@ -2,66 +2,42 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import AboutUsEditor from "./components/AboutUsEditor";
-import StageEditor from "./components/StageEditor";
-import ServicesEditor from "./components/ServicesEditor";
-import ProductEditor from "./components/ProductEditor";
-import BrandsEditor from "./components/BrandsEditor";
-import CushionsEditor from "./components/makeup/CushionsEditor";
-import EyesEditor from "./components/makeup/EyesEditor";
-import FoundationEditor from "./components/makeup/FoundationEditor";
-import LipsProductsEditor from "./components/makeup/LipsProductsEditor";
-import PaletesEditor from "./components/makeup/PaletesEditor";
-import AccessoriesEditor from "./components/AcessoriesEditor";
+import Cushions from "./categories/Cushions";
+import Eyes from "./categories/Eyes";
+import Foundation from "./categories/Foundation";
+import LipsProducts from "./categories/LipsProducts";
+import Paletes from "./categories/Paletes";
 
-const ContentEditor = () => {
-  const [selectedTab, setSelectedTab] = useState("stage");
+const Makeup = () => {
+  const [selectedTab, setSelectedTab] = useState("cushions");
 
   const renderEditor = () => {
     switch (selectedTab) {
-      case "stage":
-        return <StageEditor />;
-      case "about-us":
-        return <AboutUsEditor />;
-      case "services":
-        return <ServicesEditor />;
-      case "products":
-        return <ProductEditor />;
-      case "brands":
-        return <BrandsEditor />;
       case "cushions":
-        return <CushionsEditor />;
+        return <Cushions />;
       case "eyes":
-        return <EyesEditor />;
+        return <Eyes />;
       case "foundation":
-        return <FoundationEditor />;
-      case "lips":
-        return <LipsProductsEditor />;
+        return <Foundation />;
+      case "lips-products":
+        return <LipsProducts />;
       case "paletes":
-        return <PaletesEditor />;
-      case "accessories":
-        return <AccessoriesEditor />;
+        return <Paletes />;
       default:
-        return <StageEditor />;
+        return <Cushions />;
     }
   };
 
   const tabs = [
-    { id: "stage", label: "Stage" },
-    { id: "about-us", label: "About Us" },
-    { id: "services", label: "Services" },
-    { id: "products", label: "Products" },
-    { id: "brands", label: "Brands" },
     { id: "cushions", label: "Cushions" },
     { id: "eyes", label: "Eyes" },
     { id: "foundation", label: "Foundation" },
-    { id: "lips", label: "Lips" },
+    { id: "lips-products", label: "LipsProducts" },
     { id: "paletes", label: "Paletes" },
-    { id: "accessories", label: "Accessories" },
   ];
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-warmBeige">
+    <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Mobile Dashboard (Top Navigation) */}
       <div className="lg:hidden w-full bg-lightBlush shadow-lg p-4 flex overflow-x-auto space-x-4">
         {tabs.map((tab) => (
@@ -110,7 +86,7 @@ const ContentEditor = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-6">
-        <div className="bg-white p-6 rounded-lg shadow-md border border-goldenYellow">
+        <div>
           {renderEditor()}
         </div>
       </main>
@@ -118,4 +94,4 @@ const ContentEditor = () => {
   );
 };
 
-export default ContentEditor;
+export default Makeup;

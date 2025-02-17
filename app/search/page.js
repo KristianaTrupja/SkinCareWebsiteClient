@@ -42,7 +42,8 @@ const SearchPage = () => {
             <Link href={`/product/${product._id}`} key={product._id} className="block border p-4 rounded-md shadow-md">
               <img src={product.imagePath} alt={product.title} className="w-full h-48 object-cover rounded-md" />
               <h3 className="text-lg font-semibold mt-2">{product.title}</h3>
-              <p className="text-gray-700 mt-1">₹{product.sp}</p>
+              {product.sp !== null ?  <p className="text-gray-700 mt-1">Leke{product.sp}</p>:  <p className="text-gray-700 mt-1">Leke{product.mrp}</p>}
+               
             </Link>
           ))}
         </div>

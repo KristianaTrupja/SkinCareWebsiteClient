@@ -2,7 +2,7 @@
 import { MdDelete } from "react-icons/md";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Popup from "./ui/Popup";
+import Popup from "../ui/Popup";
 import Link from "next/link";
 
 const Products = () => {
@@ -11,13 +11,18 @@ const Products = () => {
   const [error, setError] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 12; // Products per page
 
-  // Fetch product data
+  // Fetch products based on page
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
-        const response = await axios.get("http://localhost:5000/product");
-        setProducts(response.data.productData);
+        const response = await axios.get(`http://localhost:5000/product/?page=${currentPage}&limit=${limit}`);
+        setProducts(response.data.products);
+        setTotalPages(response.data.totalPages);
       } catch (err) {
         setError("Failed to fetch products.");
       } finally {
@@ -26,7 +31,7 @@ const Products = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [currentPage]); // Fetch when page changes
 
   // Handle delete confirmation
   const confirmDelete = (product) => {
@@ -46,6 +51,13 @@ const Products = () => {
     }
 
     setShowConfirm(false);
+  };
+
+  // Pagination handlers
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
   };
 
   if (loading) return <p className="text-center text-lg">Loading products...</p>;
@@ -99,13 +111,43 @@ const Products = () => {
 
               {/* Price Section */}
               <div className="mt-2">
-                {product.mrp !== product.sp && (
+                {(product.mrp !== product.sp && product.sp !== null) && (
                   <p className="text-red-700 text-sm line-through">Lek {product.mrp}</p>
                 )}
-                <p className="text-[#333333] font-bold text-xl">Lek {product.sp}</p>
+                {(product.mrp !== null && product.sp === null) && <p className="text-[#333333] font-bold text-xl">Lek {product.mrp}</p>}
+                {product.sp !== null && <p className="text-[#333333] font-bold text-xl">Lek {product.sp}</p>}
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="mt-8 flex justify-center space-x-2">
+          <button
+            className={`px-4 py-2 rounded-lg ${currentPage === 1 ? "bg-gray-300" : "bg-goldenYellow text-white hover:bg-peach"}`}
+            disabled={currentPage === 1}
+            onClick={() => goToPage(currentPage - 1)}
+          >
+            Previous
+          </button>
+
+          {[...Array(totalPages).keys()].map((_, index) => (
+            <button
+              key={index}
+              className={`px-4 py-2 rounded-lg ${currentPage === index + 1 ? "bg-goldenYellow text-white" : "bg-gray-200 hover:bg-gray-300"}`}
+              onClick={() => goToPage(index + 1)}
+            >
+              {index + 1}
+            </button>
+          ))}
+
+          <button
+            className={`px-4 py-2 rounded-lg ${currentPage === totalPages ? "bg-gray-300" : "bg-goldenYellow text-white hover:bg-peach"}`}
+            disabled={currentPage === totalPages}
+            onClick={() => goToPage(currentPage + 1)}
+          >
+            Next
+          </button>
         </div>
       </div>
 

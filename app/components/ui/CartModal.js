@@ -24,7 +24,7 @@ const CartModal = () => {
 
       {/* Modal Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-center z-50" onClick={() => setIsOpen(false)}>
           {/* Modal Content */}
           <div className="bg-white p-6 rounded-lg w-96 shadow-lg relative h-full">
             <button
@@ -47,7 +47,7 @@ const CartModal = () => {
                   />
                   <div className="flex-1">
                     <h3 className="text-md font-semibold">{item.title}</h3>
-                    <p className="text-gray-600">Lek{item.sp} x {item.quantity}</p>
+                   {item.sp !== null ? <p className="text-gray-600">Lek{item.sp} x {item.quantity}</p> : <p className="text-gray-600">Lek{item.mrp} x {item.quantity}</p>} 
                   </div>
                 </div>
               ))}
@@ -59,12 +59,12 @@ const CartModal = () => {
 
             {/* Total Price */}
             <div className="mt-4">
-              <p className="text-lg font-bold">Total: ₹{totalPrice}</p>
+              <p className="text-lg font-bold">Total: Lek {totalPrice}</p>
             </div>
 
             {/* Checkout Button */}
             <button className="w-full mt-4 bg-black text-white py-2 rounded-md">
-              Checkout
+              Blij tani
             </button>
           </div>
         </div>
