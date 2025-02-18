@@ -8,7 +8,7 @@ const AboutUs = () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/about-us/get-about-us")
+        const response = await axios.get("http://localhost:5001/about-us/get-about-us")
         setData(response.data.content)
       } catch (err) {
         console.error('Error fetching content:', err);

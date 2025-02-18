@@ -16,7 +16,7 @@ export default function Services() {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/services/get-services");
+        const response = await axios.get("http://localhost:5001/services/get-services");
         setData(response.data.content);
       } catch (err) {
         console.error("Error fetching content:", err);

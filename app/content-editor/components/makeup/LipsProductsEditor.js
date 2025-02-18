@@ -29,7 +29,7 @@ const LipsProductsEditor = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/lips",
+        "http://localhost:5001/lips",
         content
       );
       alert("Content created successfully!");

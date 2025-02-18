@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Popup from "@/app/components/ui/Popup";
 import Link from "next/link";
+import Loader from "@/app/components/ui/Loader";
 
 const Paletes = () => {
   const [products, setProducts] = useState([]);
@@ -16,7 +17,7 @@ const Paletes = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/paletes");
+        const response = await axios.get("http://localhost:5001/paletes");
         setProducts(response.data.productData);
       } catch (err) {
         setError("Failed to fetch products.");
@@ -39,7 +40,7 @@ const Paletes = () => {
     if (!selectedProduct) return;
 
     try {
-      await axios.delete(`http://localhost:5000/product/${selectedProduct._id}`);
+      await axios.delete(`http://localhost:5001/product/${selectedProduct._id}`);
       setProducts(products.filter((product) => product._id !== selectedProduct._id));
     } catch (err) {
       console.error("Failed to delete product:", err);
@@ -48,7 +49,7 @@ const Paletes = () => {
     setShowConfirm(false);
   };
 
-  if (loading) return <p className="text-center text-lg">Loading products...</p>;
+  if (loading) return <Loader/>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (

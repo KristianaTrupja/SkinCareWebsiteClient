@@ -3,6 +3,8 @@ import "./globals.css";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import { CartProvider } from "./context/CartContext";
+import { LoadingProvider } from "./context/LoadingContext";
+import Loader from "./components/ui/Loader";
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -16,9 +18,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={outfit.className}>
       <CartProvider>
+      <LoadingProvider>
         <Header />
+        <Loader />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        </LoadingProvider>
         </CartProvider>
       </body>
     </html>

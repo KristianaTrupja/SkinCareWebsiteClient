@@ -21,7 +21,7 @@ const StageEditor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/stage-content/create-stage', content);
+      const response = await axios.post('http://localhost:5001/stage-content/create-stage', content);
       alert('Content created successfully!');
       
       setContent({

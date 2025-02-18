@@ -14,7 +14,7 @@ const Stage = () => {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/stage-content/get-stage');
+        const response = await axios.get('http://localhost:5001/stage-content/get-stage');
         setSlides(response.data.content);
       } catch (error) {
         console.error('Error fetching content:', error);

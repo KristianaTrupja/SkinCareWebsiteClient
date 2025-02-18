@@ -20,7 +20,7 @@ const RatingAndReviews = ({ productId }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(`http://localhost:5000/reviews/${productId}?page=${currentPage}&limit=${limit}`);
+        const response = await axios.get(`http://localhost:5001/reviews/${productId}?page=${currentPage}&limit=${limit}`);
         setReviews(response.data.reviews);
         setTotalPages(response.data.totalPages);
       } catch (err) {
@@ -46,7 +46,7 @@ const RatingAndReviews = ({ productId }) => {
         return;
       }
 
-      const response = await axios.post("http://localhost:5000/reviews", {
+      const response = await axios.post("http://localhost:5001/reviews", {
         productId,
         rating,
         comment,

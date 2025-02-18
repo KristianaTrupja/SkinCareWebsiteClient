@@ -23,7 +23,7 @@ const Brands = () => {
   // Fetch products when brand is selected
   useEffect(() => {
     if (selectedBrand) {
-      fetch(`http://localhost:5000/product/products?search=${selectedBrand}`)
+      fetch(`http://localhost:5001/product/products?search=${selectedBrand}`)
         .then((res) => res.json())
         .then((data) => setProducts(data.products))
         .catch((err) => console.error(err));

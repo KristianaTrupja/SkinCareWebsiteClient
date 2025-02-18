@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import axios from "axios";
 import Link from "next/link";
+import Loader from "../components/ui/Loader";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
@@ -17,7 +18,7 @@ const SearchPage = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/product/products?search=${query}`);
+        const response = await axios.get(`http://localhost:5001/product/products?search=${query}`);
         setProducts(response.data.products);
       } catch (err) {
         setError("Failed to load products.");
@@ -29,7 +30,7 @@ const SearchPage = () => {
     fetchProducts();
   }, [query]);
 
-  if (loading) return <p className="text-center text-lg">Loading...</p>;
+  if (loading) return <Loader/>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (

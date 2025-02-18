@@ -29,7 +29,7 @@ const ProductEditor = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/product",
+        "http://localhost:5001/product",
         content
       );
       alert("Content created successfully!");

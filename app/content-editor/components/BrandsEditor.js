@@ -22,7 +22,7 @@ const BrandsEditor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/brands', content); 
+      const response = await axios.post('http://localhost:5001/brands', content); 
       alert('Content created successfully!');
       
       // Reset form after successful submission

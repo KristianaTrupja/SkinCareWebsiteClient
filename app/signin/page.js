@@ -27,7 +27,7 @@ export default function SignUpForm() {
     setMessage(""); // Reset message
 
     try {
-      const response = await fetch("http://localhost:5000/user/signup", {
+      const response = await fetch("http://localhost:5001/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -20,7 +20,7 @@ const ServicesEditor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/services/create-services', content);
+      const response = await axios.post('http://localhost:5001/services/create-services', content);
       alert('Content created successfully!');
       
       setContent({

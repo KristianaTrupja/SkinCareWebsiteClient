@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Popup from "../ui/Popup";
 import Link from "next/link";
+import { useLoading } from "@/app/context/LoadingContext";
+import Loader from "../ui/Loader";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -14,13 +16,14 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 12; // Products per page
+  const { showLoader, hideLoader } = useLoading();
 
   // Fetch products based on page
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/product/?page=${currentPage}&limit=${limit}`);
+        const response = await axios.get(`http://localhost:5001/product/?page=${currentPage}&limit=${limit}`);
         setProducts(response.data.products);
         setTotalPages(response.data.totalPages);
       } catch (err) {
@@ -44,7 +47,7 @@ const Products = () => {
     if (!selectedProduct) return;
 
     try {
-      await axios.delete(`http://localhost:5000/product/${selectedProduct._id}`);
+      await axios.delete(`http://localhost:5001/product/${selectedProduct._id}`);
       setProducts(products.filter((product) => product._id !== selectedProduct._id));
     } catch (err) {
       console.error("Failed to delete product:", err);
@@ -60,7 +63,10 @@ const Products = () => {
     }
   };
 
-  if (loading) return <p className="text-center text-lg">Loading products...</p>;
+  const GoToDetailPage = ()=>{
+    showLoader()
+  }
+  if (loading) return <Loader/>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
@@ -96,7 +102,7 @@ const Products = () => {
               )}
 
               {/* Product Image */}
-              <Link href={`/product/${product._id}`}>
+              <Link href={`/product/${product._id}`} onClick={GoToDetailPage}>
                 <div className="relative w-full h-56 mb-4 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-110">
                   <img
                     src={product.imagePath}

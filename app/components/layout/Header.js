@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BsCart, BsSearch, BsList, BsX, BsPencilSquare } from "react-icons/bs";
 import { useCart } from "../../context/CartContext";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import CartModal from "../ui/CartModal";
+import { useLoading } from "@/app/context/LoadingContext";
 
 function Header() {
   const { cart } = useCart();
@@ -13,14 +14,26 @@ function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { showLoader, hideLoader } = useLoading();
+
 
   const handleSearch = (e) => {
     e.preventDefault();
+    showLoader();
+    setTimeout(hideLoader, 2000);
     if (searchTerm.trim()) {
       router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
     }
   };
 
+  const handleNavigation = (path) => {
+    showLoader();
+    router.push(path);
+  };
+  useEffect(() => {
+    hideLoader();
+  }, [pathname]);
+  
   const navItems = [
     { name: "Home", path: "/home" },
     { name: "Makeup", path: "/makeup" },
@@ -43,9 +56,9 @@ function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex space-x-6 items-center">
           {navItems.map((item) => (
-            <Link
+            <button
               key={item.path}
-              href={item.path}
+              onClick={() => handleNavigation(item.path)}
               className={`relative px-3 py-2 text-white transition hover:text-yellow ${
                 pathname === item.path
                   ? "text-yellow font-semibold after:absolute after:left-1/2 after:-bottom-2 after:-translate-x-1/2 after:border-t-[6px] after:border-x-[5px] after:border-x-transparent after:border-t-yellow"
@@ -53,7 +66,7 @@ function Header() {
               }`}
             >
               {item.name}
-            </Link>
+            </button>
           ))}
         </nav>
 
@@ -73,9 +86,9 @@ function Header() {
             </button>
           </form>
 
-          {/* Content Editor Icon (Placed beside Shopping Cart) */}
+          {/* Content Editor Icon */}
           <button
-            onClick={() => router.push("/content-editor")}
+            onClick={() => handleNavigation("/content-editor")}
             className="text-white text-2xl transition hover:text-yellow active:scale-90"
             aria-label="Content Editor"
           >
@@ -106,7 +119,7 @@ function Header() {
               <button
                 onClick={() => {
                   setMenuOpen(false);
-                  router.push("/content-editor");
+                  handleNavigation("/content-editor");
                 }}
                 className="text-gray-800 text-2xl hover:text-peach transition flex items-center gap-2"
               >
@@ -116,9 +129,12 @@ function Header() {
 
               {/* Other Mobile Nav Items */}
               {navItems.map((item) => (
-                <Link
+                <button
                   key={item.path}
-                  href={item.path}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    handleNavigation(item.path);
+                  }}
                   className={`relative text-gray-800 text-lg transition hover:text-peach ${
                     pathname === item.path
                       ? "text-peach font-semibold after:absolute after:left-1/2 after:-bottom-2 after:-translate-x-1/2 after:border-t-[6px] after:border-x-[5px] after:border-x-transparent after:border-t-peach"
@@ -126,7 +142,7 @@ function Header() {
                   }`}
                 >
                   {item.name}
-                </Link>
+                </button>
               ))}
             </nav>
           </div>

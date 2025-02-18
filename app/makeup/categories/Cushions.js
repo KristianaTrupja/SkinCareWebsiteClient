@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Popup from "@/app/components/ui/Popup";
 import Link from "next/link";
+import Loader from "@/app/components/ui/Loader";
 
 const Cushions = () => {
   const [products, setProducts] = useState([]);
@@ -11,12 +12,14 @@ const Cushions = () => {
   const [error, setError] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 5; // Reviews per page
   // Fetch product data
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/cushions");
+        const response = await axios.get("http://localhost:5001/cushions");
         setProducts(response.data.productData);
       } catch (err) {
         setError("Failed to fetch products.");
@@ -39,7 +42,7 @@ const Cushions = () => {
     if (!selectedProduct) return;
 
     try {
-      await axios.delete(`http://localhost:5000/product/${selectedProduct._id}`);
+      await axios.delete(`http://localhost:5001/product/${selectedProduct._id}`);
       setProducts(products.filter((product) => product._id !== selectedProduct._id));
     } catch (err) {
       console.error("Failed to delete product:", err);
@@ -48,7 +51,7 @@ const Cushions = () => {
     setShowConfirm(false);
   };
 
-  if (loading) return <p className="text-center text-lg">Loading products...</p>;
+  if (loading) return <Loader/>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
@@ -101,7 +104,6 @@ const Cushions = () => {
           ))}
         </div>
       </div>
-
       {/* Delete Confirmation Popup */}
       <Popup
         isOpen={showConfirm}

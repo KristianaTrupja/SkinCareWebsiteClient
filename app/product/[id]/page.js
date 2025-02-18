@@ -4,6 +4,7 @@ import { useCart } from "@/app/context/CartContext";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import RatingAndReviews from "@/app/components/global/RatingAndReviews";
+import Loader from "@/app/components/ui/Loader";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -24,7 +25,7 @@ const ProductDetail = () => {
 
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/product/${id}`);
+        const response = await axios.get(`http://localhost:5001/product/${id}`);
         setProduct(response.data.product);
       } catch (err) {
         setError("Failed to load product.");
@@ -36,7 +37,7 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
-  if (loading) return <p className="text-center text-lg">Loading product...</p>;
+  if (loading) return <Loader/>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
