@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { MdDelete } from "react-icons/md";
-
+import { usePathname } from "next/navigation";
+import ProductSorter from "../components/global/ProductSorter";
 const brands = [
   "Purito",
   "COSRX",
@@ -19,17 +20,28 @@ const Brands = () => {
     const [selectedBrand, setSelectedBrand] = useState(brands[0]);
 
   const [products, setProducts] = useState([]);
+  const [productsSorter, setProductSorter] = useState([]);
+  const [userType, setUserType] = useState(""); // New state for userType
+  const pathname = usePathname();
 
+  useEffect(() => {
+    const storedUserType = localStorage.getItem("userType");
+    
+    if (storedUserType) setUserType(storedUserType);
+  }, [pathname]); // Adding pathname will re-run useEffect when route changes
   // Fetch products when brand is selected
   useEffect(() => {
     if (selectedBrand) {
-      fetch(`http://localhost:5001/product/products?search=${selectedBrand}`)
+      fetch(`http://localhost:5004/product/products?search=${selectedBrand}`)
         .then((res) => res.json())
-        .then((data) => setProducts(data.products))
+        .then((data) => {setProducts(data.products);
+           setProductSorter(data.products)})
         .catch((err) => console.error(err));
     }
   }, [selectedBrand]);
-
+const handleSort = (products) =>{
+  setProductSorter(products)
+}
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Mobile Filter (Top Navigation) */}
@@ -78,19 +90,20 @@ const Brands = () => {
       {/* Main Content */}
       <main className="flex-1 p-6">
         {selectedBrand && <h2 className="text-lg font-semibold mb-4">Showing results for "{selectedBrand}"</h2>}
-
+         <ProductSorter products={products} onSort={handleSort}/>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.length > 0 ? (
-            products.map((product) => (
+          {productsSorter.length > 0 ? (
+            productsSorter.map((product) => (
                 <div
                 key={product._id}
                 className="relative h-full p-6 pt-10 rounded-lg shadow-lg bg-white text-center transition-all duration-300 hover:scale-105 hover:shadow-xl transform cursor-pointer"
               >
                 {/* Delete Icon */}
-                <MdDelete
-                  className="absolute top-3 right-3 text-red-600 text-xl cursor-pointer hover:text-red-800"
-                  onClick={() => confirmDelete(product)}
-                />
+                {userType === 'admin' && <MdDelete
+                className="absolute top-3 right-3 text-red-600 text-xl cursor-pointer hover:text-red-800"
+                onClick={() => confirmDelete(product)}
+              />
+              }
   
                 {/* Discount Badge */}
                 {product.discountPercent > 0 && (
@@ -100,7 +113,7 @@ const Brands = () => {
                 )}
   
                 {/* Product Image */}
-                <Link href={`/product/${product._id}`}>
+                <Link href={`/detailPage/${product._id}`}>
                   <div className="relative w-full h-56 mb-4 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-110">
                     <img
                       src={product.imagePath}

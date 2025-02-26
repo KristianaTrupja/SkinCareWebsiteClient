@@ -10,7 +10,7 @@ export default function Brands() {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/brands");
+        const response = await axios.get("http://localhost:5004/brands");
         setContent(response.data.content);
       } catch (err) {
         console.log("Error fetching brands", err);

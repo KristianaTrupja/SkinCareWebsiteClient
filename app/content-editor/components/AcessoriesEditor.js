@@ -29,7 +29,7 @@ const AccessoriesEditor = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5001/accessories",
+        "http://localhost:5004/accessories",
         content
       );
       alert("Content created successfully!");

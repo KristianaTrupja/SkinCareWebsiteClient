@@ -29,7 +29,7 @@ const FoundationEditor = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5001/foundation",
+        "http://localhost:5004/foundation",
         content
       );
       alert("Content created successfully!");

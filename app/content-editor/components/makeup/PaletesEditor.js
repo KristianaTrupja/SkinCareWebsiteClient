@@ -29,7 +29,7 @@ const PaletesEditor = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5001/paletes",
+        "http://localhost:5004/paletes",
         content
       );
       alert("Content created successfully!");

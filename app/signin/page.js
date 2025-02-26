@@ -11,7 +11,7 @@ export default function SignUpForm() {
     email: "",
     phone: "",
     password: "",
-    userType: "user", // Default user type
+    userType: "user",
   });
 
   const [message, setMessage] = useState("");
@@ -27,7 +27,7 @@ export default function SignUpForm() {
     setMessage(""); // Reset message
 
     try {
-      const response = await fetch("http://localhost:5001/user/signup", {
+      const response = await fetch("http://localhost:5004/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export default function SignUpForm() {
       if (response.ok) {
         setMessage("Signup successful! Redirecting...");
         setTimeout(() => {
-          router.push("/home"); // Redirect to home page
+          router.push("/login"); // Redirect to home page
         }, 2000);
       } else {
         setMessage(data.error || "Signup failed.");
@@ -113,7 +113,19 @@ export default function SignUpForm() {
               required
             />
           </div>
-
+          {/* User Type */}
+          <div>
+            <label className="mb-1 block text-sm font-medium text-gray-700">User Type</label>
+            <input
+              type="userType"
+              name="userType"
+              placeholder="Enter your user type"
+              value={formData.userType}
+              onChange={handleChange}
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-gray-700 focus:border-blue-500 focus:ring focus:ring-blue-200"
+              required
+            />
+          </div>
           {/* Submit Button */}
           <button
             type="submit"

@@ -30,10 +30,10 @@ const Makeup = () => {
 
   const tabs = [
     { id: "cushions", label: "Cushions" },
-    { id: "eyes", label: "Eyes" },
-    { id: "foundation", label: "Foundation" },
-    { id: "lips-products", label: "LipsProducts" },
-    { id: "paletes", label: "Paletes" },
+    { id: "eyes", label: "Syte" },
+    { id: "foundation", label: "Fondatina" },
+    { id: "lips-products", label: "Produkte per buzet" },
+    { id: "paletes", label: "Palete" },
   ];
 
   return (

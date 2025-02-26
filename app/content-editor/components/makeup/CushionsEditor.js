@@ -29,7 +29,7 @@ const CushionsEditor = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5001/cushions",
+        "http://localhost:5004/cushions",
         content
       );
       alert("Content created successfully!");

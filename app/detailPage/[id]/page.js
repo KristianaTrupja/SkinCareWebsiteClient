@@ -25,7 +25,7 @@ const ProductDetail = () => {
 
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/product/${id}`);
+        const response = await axios.get(`http://localhost:5004/product/${id}`);
         setProduct(response.data.product);
       } catch (err) {
         setError("Failed to load product.");

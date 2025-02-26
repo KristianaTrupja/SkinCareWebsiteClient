@@ -6,9 +6,11 @@ import Popup from "../ui/Popup";
 import Link from "next/link";
 import { useLoading } from "@/app/context/LoadingContext";
 import Loader from "../ui/Loader";
-
+import { usePathname } from "next/navigation";
+import ProductSorter from "../global/ProductSorter";
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [productSorted, setProductSorted] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -17,14 +19,22 @@ const Products = () => {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 12; // Products per page
   const { showLoader, hideLoader } = useLoading();
+  const [userType, setUserType] = useState(""); // New state for userType
+  const pathname = usePathname();
 
+  useEffect(() => {
+    const storedUserType = localStorage.getItem("userType");
+    
+    if (storedUserType) setUserType(storedUserType);
+  }, [pathname]); // Adding pathname will re-run useEffect when route changes
   // Fetch products based on page
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5001/product/?page=${currentPage}&limit=${limit}`);
+        const response = await axios.get(`http://localhost:5004/product/?page=${currentPage}&limit=${limit}`);
         setProducts(response.data.products);
+        setProductSorted(response.data.products);
         setTotalPages(response.data.totalPages);
       } catch (err) {
         setError("Failed to fetch products.");
@@ -41,14 +51,17 @@ const Products = () => {
     setSelectedProduct(product);
     setShowConfirm(true);
   };
-
+  const handleSort = (sortedProducts) =>{
+    setProductSorted(sortedProducts)
+  }
   // Handle delete
   const handleDelete = async () => {
     if (!selectedProduct) return;
 
     try {
-      await axios.delete(`http://localhost:5001/product/${selectedProduct._id}`);
+      await axios.delete(`http://localhost:5004/product/${selectedProduct._id}`);
       setProducts(products.filter((product) => product._id !== selectedProduct._id));
+      setProductSorted(products.filter((product) => product._id !== selectedProduct._id))
     } catch (err) {
       console.error("Failed to delete product:", err);
     }
@@ -71,6 +84,7 @@ const Products = () => {
 
   return (
     <section className="w-full py-16 px-6 md:px-12 bg-lightBlush mt-10">
+      <ProductSorter products={products} onSort={handleSort}/>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-[#1f2937]">
@@ -83,17 +97,17 @@ const Products = () => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product) => (
+          {productSorted.map((product) => (
             <div
               key={product._id}
               className="relative h-full p-6 pt-10 rounded-lg shadow-lg bg-white text-center transition-all duration-300 hover:scale-105 hover:shadow-xl transform cursor-pointer"
             >
               {/* Delete Icon */}
-              <MdDelete
+              {userType === 'admin' && <MdDelete
                 className="absolute top-3 right-3 text-red-600 text-xl cursor-pointer hover:text-red-800"
                 onClick={() => confirmDelete(product)}
               />
-
+              }
               {/* Discount Badge */}
               {product.discountPercent > 0 && (
                 <span className="absolute top-3 left-3 bg-[#f59e0b] text-[#1f2937] text-xs font-bold px-3 py-1 rounded-full z-30">
@@ -102,7 +116,7 @@ const Products = () => {
               )}
 
               {/* Product Image */}
-              <Link href={`/product/${product._id}`} onClick={GoToDetailPage}>
+              <Link href={`/detailPage/${product._id}`} onClick={GoToDetailPage}>
                 <div className="relative w-full h-56 mb-4 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden transition-all duration-300 transform hover:scale-110">
                   <img
                     src={product.imagePath}
@@ -160,11 +174,11 @@ const Products = () => {
       {/* Delete Confirmation Popup */}
       <Popup
         isOpen={showConfirm}
-        title="Confirm Deletion"
-        message={`Are you sure you want to delete "${selectedProduct?.title}"?`}
+        title="Konfirmo fshirjen"
+        message={`A jeni te sigurt qe deshironi te fshini produktin "${selectedProduct?.title}"?`}
         onClose={() => setShowConfirm(false)}
         onConfirm={handleDelete}
-        confirmText="Delete"
+        confirmText="Fshij"
         cancelText="Cancel"
       />
     </section>

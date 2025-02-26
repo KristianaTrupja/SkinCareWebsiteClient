@@ -18,7 +18,7 @@ const SearchPage = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/product/products?search=${query}`);
+        const response = await axios.get(`http://localhost:5004/product/products?search=${query}`);
         setProducts(response.data.products);
       } catch (err) {
         setError("Failed to load products.");
@@ -40,7 +40,7 @@ const SearchPage = () => {
       {products.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <Link href={`/product/${product._id}`} key={product._id} className="block border p-4 rounded-md shadow-md">
+            <Link href={`/detailPage/${product._id}`} key={product._id} className="block border p-4 rounded-md shadow-md">
               <img src={product.imagePath} alt={product.title} className="w-full h-48 object-cover rounded-md" />
               <h3 className="text-lg font-semibold mt-2">{product.title}</h3>
               {product.sp !== null ?  <p className="text-gray-700 mt-1">Leke{product.sp}</p>:  <p className="text-gray-700 mt-1">Leke{product.mrp}</p>}

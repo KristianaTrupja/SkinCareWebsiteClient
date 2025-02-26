@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { BsCart, BsSearch, BsList, BsX, BsPencilSquare } from "react-icons/bs";
+import { BsSearch, BsList, BsX, BsPencilSquare, BsPerson, BsBoxArrowRight } from "react-icons/bs";
 import { useCart } from "../../context/CartContext";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -10,12 +10,32 @@ import { useLoading } from "@/app/context/LoadingContext";
 
 function Header() {
   const { cart } = useCart();
+  const [username, setUsername] = useState("");
+  const [userType, setUserType] = useState(""); // New state for userType
   const [searchTerm, setSearchTerm] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { showLoader, hideLoader } = useLoading();
 
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    const storedUserType = localStorage.getItem("userType");
+    
+    if (storedUsername) setUsername(storedUsername);
+    if (storedUserType) setUserType(storedUserType);
+  }, [pathname]); // Adding pathname will re-run useEffect when route changes
+  
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userType"); // Remove userType on logout
+    localStorage.removeItem("userId")
+    setUsername("");
+    setUserType(""); // Reset state
+    window.location.reload();
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -30,10 +50,11 @@ function Header() {
     showLoader();
     router.push(path);
   };
+
   useEffect(() => {
     hideLoader();
   }, [pathname]);
-  
+
   const navItems = [
     { name: "Home", path: "/home" },
     { name: "Makeup", path: "/makeup" },
@@ -45,7 +66,7 @@ function Header() {
     <header className="sticky top-0 z-50 bg-peach px-6 py-4 shadow-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         {/* Logo */}
-        <Link href="/home" className="text-2xl font-bold text-white">
+        <Link href="/home" className="text-2xl font-bold text-white hidden md:block">
           <img
             src="https://glowyskinshop.com/cdn/shop/files/Untitled_design_44_110x.png?v=1704640845"
             className="h-14"
@@ -70,7 +91,7 @@ function Header() {
           ))}
         </nav>
 
-        {/* Search, Cart, and Content Editor Icon */}
+        {/* Search, Cart, Content Editor, and Login Icon */}
         <div className="flex items-center gap-4">
           {/* Search */}
           <form onSubmit={handleSearch} className="relative">
@@ -86,17 +107,45 @@ function Header() {
             </button>
           </form>
 
-          {/* Content Editor Icon */}
-          <button
-            onClick={() => handleNavigation("/content-editor")}
-            className="text-white text-2xl transition hover:text-yellow active:scale-90"
-            aria-label="Content Editor"
-          >
-            <BsPencilSquare />
-          </button>
+          {/* Content Editor Icon (Only for Admins) */}
+          {userType === "admin" && (
+            <button
+              onClick={() => handleNavigation("/content-editor")}
+              className="text-white text-2xl transition hover:text-yellow active:scale-90"
+              aria-label="Content Editor"
+            >
+              <BsPencilSquare />
+            </button>
+          )}
 
           {/* Shopping Cart */}
           <CartModal />
+
+          {/* Right Side: User Info & Logout */}
+          <div className="flex items-center gap-4">
+            {username ? (
+              <div className="flex items-center gap-3 relative">
+                <button
+                  onClick={handleLogout}
+                  className="text-white text-2xl transition hover:text-yellow active:scale-90"
+                  aria-label="Logout"
+                >
+                  <BsBoxArrowRight />
+                  <span className="bg-red-500 text-white text-sm rounded-full px-2 absolute top-6 -right-2 lg:-right-14">
+                    {username}
+                  </span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => router.push("/login")}
+                className="text-white text-2xl transition hover:text-yellow active:scale-90"
+                aria-label="Login"
+              >
+                <BsPerson />
+              </button>
+            )}
+          </div>
 
           {/* Mobile Menu Button */}
           <button className="lg:hidden text-white text-2xl" onClick={() => setMenuOpen(true)}>
@@ -104,50 +153,6 @@ function Header() {
           </button>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <>
-          {/* Overlay */}
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setMenuOpen(false)}></div>
-          <div className="fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out">
-            <button className="absolute top-4 right-4 text-gray-600 text-2xl" onClick={() => setMenuOpen(false)}>
-              <BsX />
-            </button>
-            <nav className="flex flex-col items-start p-6 space-y-4 mt-10">
-              {/* Content Editor Icon in Mobile Menu */}
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  handleNavigation("/content-editor");
-                }}
-                className="text-gray-800 text-2xl hover:text-peach transition flex items-center gap-2"
-              >
-                <BsPencilSquare />
-                <span>Content Editor</span>
-              </button>
-
-              {/* Other Mobile Nav Items */}
-              {navItems.map((item) => (
-                <button
-                  key={item.path}
-                  onClick={() => {
-                    setMenuOpen(false);
-                    handleNavigation(item.path);
-                  }}
-                  className={`relative text-gray-800 text-lg transition hover:text-peach ${
-                    pathname === item.path
-                      ? "text-peach font-semibold after:absolute after:left-1/2 after:-bottom-2 after:-translate-x-1/2 after:border-t-[6px] after:border-x-[5px] after:border-x-transparent after:border-t-peach"
-                      : ""
-                  }`}
-                >
-                  {item.name}
-                </button>
-              ))}
-            </nav>
-          </div>
-        </>
-      )}
     </header>
   );
 }

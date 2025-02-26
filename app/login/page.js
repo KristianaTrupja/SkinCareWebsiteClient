@@ -15,33 +15,40 @@ export default function LoginForm() {
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+// Handle form submission
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
 
-    try {
-      const res = await fetch("http://localhost:5001/user/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+  try {
+    const res = await fetch("http://localhost:5004/user/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if (!res.ok) {
-        setError(data.message || "Login failed");
-        return;
-      }
-
-      // Store JWT token in localStorage
-      localStorage.setItem("token", data.token);
-
-      // Redirect to dashboard or home
-      router.push("/home");
-    } catch (error) {
-      setError("Something went wrong. Please try again.");
+    if (!res.ok) {
+      setError(data.message || "Login failed");
+      return;
     }
-  };
+    // Store JWT token in localStorage
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("username", data.username);
+    localStorage.setItem("userType", data.userType);
+    localStorage.setItem('userId',  data.id)
+
+    // Reload the router to update state
+    router.refresh(); // This forces the Header to re-render and get the updated username
+
+    // Redirect to home
+    router.push("/home");
+  } catch (error) {
+    setError("Something went wrong. Please try again.");
+  }
+};
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">

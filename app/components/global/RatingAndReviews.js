@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import axios from "axios";
@@ -20,7 +19,7 @@ const RatingAndReviews = ({ productId }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(`http://localhost:5001/reviews/${productId}?page=${currentPage}&limit=${limit}`);
+        const response = await axios.get(`http://localhost:5004/reviews/${productId}?page=${currentPage}&limit=${limit}`);
         setReviews(response.data.reviews);
         setTotalPages(response.data.totalPages);
       } catch (err) {
@@ -46,13 +45,12 @@ const RatingAndReviews = ({ productId }) => {
         return;
       }
 
-      const response = await axios.post("http://localhost:5001/reviews", {
+      const response = await axios.post("http://localhost:5004/reviews", {
         productId,
         rating,
         comment,
       });
 
-      console.log("Review submitted:", response.data);
       // Add new review to the state
       setReviews((prevReviews) => [response.data.review, ...prevReviews]);
       setComment("");
